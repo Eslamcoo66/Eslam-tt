@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>تحدي الشلة - كورة V6</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800;1000&display=swap" rel="stylesheet">
+<style>
+:root{--grass:#1f8a43;--grass2:#1a7c3b;--dark:#0e4d24;--line:#f4fff6;--ink:#fff;--gold:#ffd54f;--red:#ff5a4d;--neon:#00e5ff;--purple:#7c4dff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--grass:#14602f;--grass2:#115528;--dark:#083a1b}}
+:root[data-theme="dark"]{--grass:#14602f;--grass2:#115528;--dark:#083a1b}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0}
+body{color:var(--ink);font-family:Tajawal,system-ui,sans-serif;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom,0px);
+ background:radial-gradient(circle at 20% 0%,#17113b 0,#080812 38%,#050509 100%);background-attachment:fixed}
+header{background:linear-gradient(135deg,#08080d,#12102a 55%,#09090f);border-bottom:1px solid rgba(255,213,74,.28);box-shadow:0 8px 35px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;position:relative;min-height:66px;padding-top:env(safe-area-inset-top,0px)}
+#back{position:absolute;right:12px;bottom:12px;background:none;border:0;color:var(--ink);font-size:32px;line-height:1;cursor:pointer;display:none}
+main{flex:1;overflow-y:auto;padding:18px 14px 28px;max-width:560px;width:100%;margin:0 auto}
+
+.fade-in{animation:fadeIn 0.2s ease-in-out}
+@keyframes fadeIn{from{opacity:0;transform:scale(0.98)}to{opacity:1;transform:scale(1)}}
+
+/* تصميم الأزرار والقائمة الرئيسية */
+.menu button{display:flex;align-items:center;justify-content:flex-start;gap:18px;width:100%;height:85px;margin:0 0 14px;background:var(--dark);color:var(--ink);border:3px solid var(--line);border-radius:20px;font:800 22px Tajawal,sans-serif;cursor:pointer;padding:0 20px;box-shadow:0 6px 16px rgba(0,0,0,.3)}
+.menu button i{font-style:normal;font-size:42px;line-height:1;display:flex;align-items:center;justify-content:center;min-width:48px}
+.menu button.soon{opacity:.6;border-style:dashed}
+
+.btn{background:var(--dark);color:#fff;border:3px solid var(--line);border-radius:14px;padding:11px 18px;font:800 18px Tajawal,sans-serif;cursor:pointer}
+.btn:active{transform:scale(0.96)}
+.btn:disabled{opacity:.5;transform:none}
+.btn.g{background:#2e7d32;border-color:#a5d6a7}
+.btn.gold{background:var(--gold);color:#111;border-color:#fff}
+
+.row{display:flex;gap:10px;justify-content:center;align-items:center;margin:12px 0;flex-wrap:wrap}
+.status{text-align:center;font-size:22px;font-weight:800;min-height:34px;margin:6px 0 14px}
+.xo{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;direction:ltr;max-width:340px;margin:0 auto}
+.xo button{aspect-ratio:1;background:var(--dark);border:3px solid var(--line);border-radius:14px;font-size:46px;color:#fff;cursor:pointer;padding:0}
+
+.card{background:var(--dark);border:3px solid var(--line);border-radius:22px;min-height:150px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:32px;font-weight:800;padding:20px;margin:10px 0}
+.goal{position:relative;height:150px;border:3px solid var(--line);border-bottom:0;border-radius:10px 10px 0 0;margin:10px auto;max-width:360px;background:repeating-linear-gradient(45deg,transparent 0 10px,rgba(255,255,255,.18) 10px 11px);font-size:60px;display:flex;align-items:center;justify-content:center}
+.dots{font-size:26px;letter-spacing:4px;text-align:center;min-height:40px}
+
+input{font:500 18px Tajawal,sans-serif;padding:12px;border-radius:12px;border:3px solid var(--line);background:var(--dark);color:#fff;flex:1;min-width:0}
+input::placeholder{color:#b9dcc3}
+
+:root{--panel:#f2fbf4;--ptext:#0e3d1f;--pline:#8fd0a5;--pfill:#e3f6e8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--panel:#0c3a1c;--ptext:#e6f7ea;--pline:#2f7d4a;--pfill:#0f4a24}}
+:root[data-theme="dark"]{--panel:#0c3a1c;--ptext:#e6f7ea;--pline:#2f7d4a;--pfill:#0f4a24}
+.panel{background:var(--panel);color:var(--ptext);border-radius:26px;padding:18px;margin-bottom:18px}
+.trow{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.ttl{font-size:26px;font-weight:800}
+.pill{background:var(--dark);color:#fff;border-radius:40px;padding:12px 28px;font-size:34px;font-weight:800;letter-spacing:3px;direction:ltr}
+.panel .btn{background:var(--pfill);color:var(--ptext);border:2px solid var(--pline);flex:1}
+.panel .btn.g{background:#43a047;color:#fff;border-color:#43a047}
+.chip{width:max-content;margin:6px auto;padding:6px 16px;border-radius:20px;background:var(--pfill);font-weight:700}
+.chip.on{background:#c8f0d0}.chip.end{background:#ffd0cc;color:#7a1a12}
+
+.qh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.badge{background:var(--pfill);border:2px solid var(--pline);border-radius:20px;padding:6px 16px;font-weight:800}
+.h{border:2px solid var(--pline);background:var(--pfill);border-radius:14px;padding:14px;margin-bottom:10px;font-size:18px;font-weight:700}
+.path{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin:10px 0 16px}
+.cl{background:var(--pfill);border:2px solid var(--pline);border-radius:12px;padding:8px 12px;font-weight:800}
+.ans{background:var(--gold);color:#222;border-radius:14px;padding:14px;text-align:center;font-size:26px;font-weight:800;margin:6px 0 12px}
+
+.brand{display:flex;align-items:center;gap:12px;direction:ltr;cursor:pointer}
+.brandMark{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:conic-gradient(from 210deg,var(--gold),#ff7a00,var(--neon),var(--purple),var(--gold));box-shadow:0 0 24px rgba(0,229,255,.25);font-size:25px}
+.brandText{font-weight:1000;letter-spacing:.5px;font-size:20px;background:linear-gradient(90deg,#fff,var(--gold),var(--neon));-webkit-background-clip:text;background-clip:text;color:transparent}
+.brandSub{display:block;font-size:9px;letter-spacing:3px;color:#9b9bb0;margin-top:1px}
+.heroLogo{margin:18px auto 22px;max-width:520px;text-align:center;padding:25px 18px;border-radius:28px;background:linear-gradient(145deg,rgba(124,77,255,.18),rgba(0,229,255,.07));border:1px solid rgba(255,213,74,.18)}
+.heroLogo .bigLogo{font-size:44px;font-weight:1000;background:linear-gradient(90deg,#fff 15%,var(--gold) 50%,var(--neon) 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+.photoSolo{text-align:center;background:#0e0e18;border:1px solid #29293a;border-radius:22px;padding:16px;margin:12px 0}
+.myPlayer{width:min(100%,300px);aspect-ratio:1;object-fit:cover;border-radius:20px;display:block;margin:auto;box-shadow:0 0 35px rgba(0,229,255,.15);border:2px solid rgba(255,255,255,.1)}
+</style>
+</head>
+<body>
+<header><button id="back" aria-label="رجوع">&#8250;</button><div class="brand" onclick="home()"><div class="brandMark">⚽</div><div><div class="brandText">ESLAM GAMES</div><span class="brandSub">FOOTBALL • PARTY • CHALLENGE</span></div></div></header>
+<main id="app"></main>
+<script>
+const $=s=>document.querySelector(s),app=$('#app');
+let tm=null;
+let LIVE_DATA={who:[],trans:[],auction:[],updatedAt:null};
+
+function playSound(type='click'){
+  if(localStorage.getItem('eg_sound')==='off') return;
+  try{
+    const ctx=new (window.AudioContext||window.webkitAudioContext)();
+    const osc=ctx.createOscillator();const g=ctx.createGain();
+    osc.connect(g);g.connect(ctx.destination);
+    if(type==='win'){osc.frequency.setValueAtTime(523,ctx.currentTime);osc.frequency.exponentialRampToValueAtTime(880,ctx.currentTime+0.3);g.gain.fadeOut(0.3);}
+    else{osc.frequency.setValueAtTime(320,ctx.currentTime);g.gain.fadeOut(0.08);}
+    osc.start();osc.stop(ctx.currentTime+0.3);
+  }catch(e){}
+}
+
+async function loadLiveData(){try{const r=await fetch('data/live.json?x='+Date.now(),{cache:'no-store'});if(r.ok)LIVE_DATA=await r.json()}catch(e){}}
+
+/* قاعدة بيانات ضخمة ومباشرة للاعبين */
+const DB_WHO = [
+  {n:'محمد صلاح',photo:'https://media.api-sports.io/football/players/306.png',h:['مصري لعب في سويسرا وإيطاليا وإنجلترا','أفضل هداف أفريقي في تاريخ الدوري الإنجليزي','فاز بالدوري الإنجليزي ودوري الأبطال مع ليفربول']},
+  {n:'كريستيانو رونالدو',photo:'https://media.api-sports.io/football/players/874.png',h:['برتغالي فاز بالكرة الذهبية 5 مرات','لعب لمانشستر يونايتد، ريال مدريد، يوفنتوس والنصر','الهداف التاريخي لبطولة دوري أبطال أوروبا']},
+  {n:'ليونيل ميسي',photo:'https://media.api-sports.io/football/players/154.png',h:['أرجنتيني فاز بكأس العالم 2022','قضى معظم مسيرته الكروية في برشلونة','أكثر لاعب فائز بالكرة الذهبية في التاريخ']},
+  {n:'رمضان صبحي',photo:'https://media.api-sports.io/football/players/28388.png',h:['جناح مصري بدأ مسيرته في الأهلي','احترف في الدوري الإنجليزي مع ستوك سيتي وهدرسفيلد','انتقل لنادي بيراميدز صفقة أثارت جدلاً واسعاً']},
+  {n:'محمد الشناوي',photo:'https://media.api-sports.io/football/players/28392.png',h:['حارس مرمى وقائد الأهلي المصري','شارك مع منتخب مصر في كأس العالم 2018','تألق في السوبر الأفريقي وكأس العالم للأندية']},
+  {n:'لوكا مودريتش',photo:'https://media.api-sports.io/football/players/752.png',h:['كرواتي فاز بالكرة الذهبية عام 2018','لعب لتوتنهام قبل الانتقال لريال مدريد','قاد منتخب بلاده لنهائي كأس العالم 2018']},
+  {n:'كريم بنزيما',photo:'https://media.api-sports.io/football/players/759.png',h:['مهاجم فرنسي فاز بالكرة الذهبية 2022','لعب لليون وريال مدريد والانتقال للاتحاد السعودي','صاحب المركز الثاني كأفضل هداف في تاريخ ريال مدريد']},
+  {n:'إرلينج هالاند',photo:'https://media.api-sports.io/football/players/1100.png',h:['مهاجم نرويجي شاب كسّر الأرقام القياسية','لعب لسالبورج وبروسيا دورتموند ومانشستر سيتي','حقق الثلاثية التاريخية في أول موسم له بإنجلترا']},
+  {n:'عمر مرموش',photo:'https://media.api-sports.io/football/players/1106.png',h:['مهاجم مصري متألق في الدوري الألماني','لعب لفولفسبورج وآينتراخت فرانكفورت','يتميز بالضربات الحرة المباشرة والتسديدات قوية']},
+  {n:'زين الدين زيدان',photo:'https://media.api-sports.io/football/players/1352.png',h:['أسطورة فرنسية فاز بكأس العالم 1998','سجل هدفاً خيالياً في نهائي دوري الأبطال 2002 مع مدريد','درب ريال مدريد وحقق معهم الأبطال 3 مرات متتالية']}
+];
+
+const DB_TRANS = [
+  {n:'محمد صلاح',c:['المقاولون العرب','بازل','تشيلسي','فيورنتينا','روما','ليفربول']},
+  {n:'كريستيانو رونالدو',c:['سبورتينج لشبونة','مانشستر يونايتد','ريال مدريد','يوفنتوس','النصر']},
+  {n:'رمضان صبحي',c:['الأهلي','ستوك سيتي','هدرسفيلد','بيراميدز']},
+  {n:'أحمد حجازي',c:['الإسماعيلي','فيورنتينا','الأهلي','وست بروميتش','الاتحاد']},
+  {n:'زلاتان إبراهيموفيتش',c:['مالمو','أياكس','يوفنتوس','إنتر','برشلونة','ميلان','باريس','مانشستر يونايتد']},
+  {n:'أنخيل دي ماريا',c:['روزاريو','بنفيكا','ريال مدريد','مانشستر يونايتد','باريس','يوفنتوس']}
+];
+
+const AUCTION_DB = {
+  eg: {
+    'حارس': ['محمد الشناوي', 'مصطفى شوبير', 'محمد عواد', 'محمد أبو جبل'],
+    'مدافع': ['أحمد حجازي', 'محمد عبد المنعم', 'علي معلول', 'حسام عبد المجيد'],
+    'وسط': ['إمام عاشور', 'عمرو السولية', 'عبد الله السعيد', 'أحمد سيد زيزو'],
+    'جناح': ['محمد صلاح', 'رمضان صبحي', 'تريزيجيه', 'مصطفى فتحي'],
+    'مهاجم': ['عمر مرموش', 'مصطفى محمد', 'وسام أبو علي', 'شيكابالا']
+  },
+  wd: {
+    'حارس': ['كورتوا', 'أليسون بيكر', 'نوير', 'إيدرسون'],
+    'مدافع': ['فان دايك', 'روبن دياز', 'روديجير', 'أشرف حكيمي'],
+    'وسط': ['بيلينجهام', 'كيفين دي بروين', 'رودري', 'مودريتش'],
+    'جناح': ['فينيسيوس جونيور', 'محمد صلاح', 'مبابي', 'ساكا'],
+    'مهاجم': ['هالاند', 'هاري كين', 'بنزيما', 'لاوتارو مارتينيز']
+  }
+};
+
+const GAMES=[
+ ['⚽','إكس أو بالكورة',xo],['🥅','ضربات جزاء',pen],['📸','مين اللاعب؟',photoGame],['🧢','أنا مين',who],['🔁','الانتقالات',trans],['💰','المزايدة',auction],['🔟','سمّي ١٠',topTen],['⚙️','الإعدادات',settings]
+];
+
+function home(){
+  clearInterval(tm);$('#back').style.display='none';
+  app.innerHTML='<div class="heroLogo fade-in"><div class="bigLogo">ESLAM GAMES</div><p style="margin:5px 0 0;color:#aaa">نسخة القعدات والتحديات V6</p></div><div class="menu fade-in"></div>';
+  GAMES.forEach(g=>{
+    const b=document.createElement('button');
+    b.innerHTML='<i>'+g[0]+'</i><span>'+g[1]+'</span>';
+    b.onclick=()=>{playSound('click');$('#back').style.display='block';g[2]();};
+    app.querySelector('.menu').appendChild(b);
+  });
+}
+$('#back').onclick=()=>{playSound('click');home();};
+loadLiveData().finally(home);
+
+/* 1. فقرة مين اللاعب */
+function photoGame(){
+  const pool=(LIVE_DATA.who||[]).filter(x=>x.photo).concat(DB_WHO);
+  const uniq=[...new Map(pool.map(x=>[x.n,x])).values()];
+  let currentIdx = Math.floor(Math.random()*uniq.length);
+  
+  function renderCard(){
+    const player = uniq[currentIdx];
+    app.innerHTML=`
+      <div class="panel fade-in">
+        <div class="ttl">📸 مين اللاعب؟</div>
+        <div class="photoSolo">
+          <img src="${player.photo}" class="myPlayer" onerror="this.src='https://via.placeholder.com/300?text=صورة+غير+متوفرة'">
+        </div>
+        <div class="ans" id="playerName" hidden>${player.n}</div>
+        <div class="h" id="playerHints" hidden>
+          <b>💡 تلميحات:</b><br>${(player.h||[]).join('<br>')}
+        </div>
+        <div class="row">
+          <button class="btn g" id="toggleInfo">👁️ إظهار / إخفاء التفاصيل</button>
+          <button class="btn gold" id="nextPhoto">🔄 لاعب تاني</button>
+        </div>
+      </div>
+    `;
+    
+    $('#toggleInfo').onclick = ()=>{
+      playSound('click');
+      const hidden = $('#playerName').hidden;
+      $('#playerName').hidden = !hidden;
+      $('#playerHints').hidden = !hidden;
+    };
+    
+    $('#nextPhoto').onclick = ()=>{
+      playSound('click');
+      let next;
+      do { next = Math.floor(Math.random()*uniq.length); } while(next === currentIdx && uniq.length > 1);
+      currentIdx = next;
+      renderCard();
+    };
+  }
+  renderCard();
+}
+
+/* 2. فقرة المزايدة المصححة بالكامل */
+function auction(){
+  let names = [];
+  let mode = 'eg';
+
+  function setupView(){
+    app.innerHTML = `
+      <div class="panel fade-in">
+        <div class="ttl">💰 لعبة المزايدة</div>
+        <p style="text-align:center;font-weight:700">اكتب أسماء الشباب اللي بيلعبوا معاكم (من 2 لـ 6 أسماء):</p>
+        <div class="row">
+          <input id="pName" placeholder="اسم المتنافس">
+          <button class="btn g" id="addP">أضف</button>
+        </div>
+        <div class="path" id="pList"></div>
+        <div class="row" style="margin-top:15px">
+          <button class="btn ${mode==='eg'?'gold':''}" id="mEg">🇪🇬 لاعبين مصريين</button>
+          <button class="btn ${mode==='wd'?'gold':''}" id="mWd">🌍 لاعبين عالميين</button>
+        </div>
+        <button class="btn g" id="startAuc" style="width:100%;margin-top:15px" ${names.length < 2 ? 'disabled' : ''}>🚀 ابدأ المزاد الآن</button>
+      </div>
+    `;
+
+    const renderNames = () => {
+      $('#pList').innerHTML = names.map((n, i) => `<span class="cl">${n} <b onclick="removeP(${i})" style="color:red;cursor:pointer">✕</b></span>`).join('');
+      $('#startAuc').disabled = names.length < 2;
+    };
+
+    window.removeP = (i) => { names.splice(i, 1); renderNames(); };
+
+    $('#addP').onclick = () => {
+      const val = $('#pName').value.trim();
+      if(val && names.length < 6){
+        names.push(val);
+        $('#pName').value = '';
+        renderNames();
+      }
+    };
+
+    $('#mEg').onclick = () => { mode = 'eg'; setupView(); };
+    $('#mWd').onclick = () => { mode = 'wd'; setupView(); };
+
+    $('#startAuc').onclick = () => {
+      playSound('click');
+      startAuctionGame();
+    };
+
+    renderNames();
+  }
+
+  function startAuctionGame(){
+    const positions = ['حارس', 'مدافع', 'وسط', 'جناح', 'مهاجم'];
+    let round = 0;
+
+    function renderRound(){
+      if(round >= positions.length){
+        app.innerHTML = `
+          <div class="panel fade-in" style="text-align:center">
+            <div class="ttl">🏆 انتهت المزايدة!</div>
+            <p style="font-size:20px;font-weight:800">عاش يا شباب، كدة كل واحد اشترى تشكيلته!</p>
+            <button class="btn g" onclick="auction()" style="width:100%">🔄 مزاد جديد</button>
+          </div>
+        `;
+        return;
+      }
+
+      const pos = positions[round];
+      const list = AUCTION_DB[mode][pos];
+      const playerToAuction = list[Math.floor(Math.random() * list.length)];
+
+      app.innerHTML = `
+        <div class="panel fade-in">
+          <div class="qh">
+            <span class="badge">الجولة ${round + 1} من 5</span>
+            <span class="badge" style="background:var(--gold);color:#000">${pos}</span>
+          </div>
+          <div class="card" style="font-size:36px;color:var(--gold)">${playerToAuction}</div>
+          <div style="background:rgba(0,0,0,0.2);padding:15px;border-radius:16px;margin:10px 0;text-align:center">
+            <p style="margin:0 0 10px;font-weight:800">اكتب أعلى سعر تمت المزايدة بيه والعرّاب اللي اشتراه:</p>
+            <div class="row">
+              <input id="winBid" type="number" placeholder="السعر">
+              <input id="winUser" placeholder="اسم الفائز باللاعب">
+            </div>
+          </div>
+          <button class="btn g" id="nextAuc" style="width:100%">التالي ⏩</button>
+        </div>
+      `;
+
+      $('#nextAuc').onclick = () => {
+        playSound('click');
+        round++;
+        renderRound();
+      };
+    }
+
+    renderRound();
+  }
+
+  setupView();
+}
+
+/* 3. فقرة أنا مين */
+function who(){
+  quiz(DB_WHO, x=> (x.h||[]).map(t=>'<div class="h">'+t+'</div>').join(''), 'من أكون؟ (اقرأ التلميحات وخمن اللاعب)');
+}
+
+/* 4. فقرة الانتقالات */
+function trans(){
+  quiz(DB_TRANS, x=>'<div class="path">'+x.c.map(t=>'<span class="cl">'+t+'</span>').join('<span style="font-size:20px">←</span>')+'</div>', 'مين اللاعب صاحب خط مسيرة الانتقالات دي؟');
+}
+
+function quiz(D, body, ask){
+  let idx = 0;
+  function draw(){
+    if(idx >= D.length) idx = 0;
+    const cur = D[idx];
+    app.innerHTML = `
+      <div class="panel fade-in">
+        <div class="qh"><span class="badge">السؤال ${idx + 1} من ${D.length}</span></div>
+        <p style="text-align:center;font-weight:800;font-size:20px;margin-bottom:10px">${ask}</p>
+        ${body(cur)}
+        <div class="ans" id="ansBox" hidden>${cur.n}</div>
+        <div class="row">
+          <button class="btn gold" id="showAns">👁 إظهار الإجابة</button>
+          <button class="btn g" id="nextQ">السؤال التالي 🔄</button>
+        </div>
+      </div>
+    `;
+    $('#showAns').onclick = ()=>{ playSound('click'); $('#ansBox').hidden = !$('#ansBox').hidden; };
+    $('#nextQ').onclick = ()=>{ playSound('click'); idx++; draw(); };
+  }
+  draw();
+}
+
+/* الألعاب التفاعلية الأخرى */
+function xo(){
+  let b=Array(9).fill(''),t='⚽',over=false;
+  const L=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  app.innerHTML='<div class="panel fade-in"><div class="status" id="st">الدور على: ⚽</div><div class="xo" id="g"></div><div class="row" style="margin-top:15px"><button class="btn g" id="rs" style="width:100%">ماتش جديد</button></div></div>';
+  const st=$('#st'),g=$('#g');
+  function draw(){g.innerHTML='';b.forEach((v,i)=>{const c=document.createElement('button');c.textContent=v;
+    c.onclick=()=>{if(over||b[i])return;playSound('click');b[i]=t;
+      if(L.some(l=>l.every(k=>b[k]===t))){over=true;st.textContent='🏆 الفائز: '+t;playSound('win')}
+      else if(b.every(Boolean)){over=true;st.textContent='تعادل 🤝'}
+      else{t=t==='⚽'?'🥅':'⚽';st.textContent='الدور على: '+t}draw()};g.appendChild(c)})}
+  $('#rs').onclick=()=>{playSound('click');xo()};draw();
+}
+
+function pen(){
+  const D=['شمال','وسط','يمين'],E=['⬅️','⬆️','➡️'];let n=0,s=0,res=[];
+  app.innerHTML='<div class="panel fade-in"><div class="status" id="st">اختار زاوية التسديد — 5 ضربات</div><div class="goal" id="gl">🧤</div><div class="dots" id="ds"></div><div class="row" id="bt"></div><div class="row"><button class="btn g" id="rs" style="display:none;width:100%">تحدي جديد</button></div></div>';
+  D.forEach((d,i)=>{const b=document.createElement('button');b.className='btn';b.textContent=E[i]+' '+d;
+    b.onclick=()=>{playSound('click');const k=Math.floor(Math.random()*3),goal=k!==i;n++;if(goal)s++;res.push(goal?'⚽':'❌');
+      $('#gl').textContent=goal?'⚽ جووول':'🧤 الحارس صدها!';$('#ds').textContent=res.join(' ');
+      if(n===5){$('#st').textContent='النتيجة: '+s+' من 5 '+(s>=3?'🔥':'😅');if(s>=3)playSound('win');$('#bt').style.display='none';$('#rs').style.display='block'}
+      else $('#st').textContent='الضربة '+(n+1)+' من 5'};$('#bt').appendChild(b)});
+  $('#rs').onclick=()=>{playSound('click');pen()};
+}
+
+function topTen(){
+  const T=['أندية فازت بدوري أبطال أوروبا','لاعبين فازوا بالكرة الذهبية','منتخبات شاركت في كأس العالم','لاعبين لعبوا للزمالك والأهلي','أندية في الدوري الإنجليزي الممتاز'];
+  app.innerHTML='<div class="panel fade-in"><div class="ttl">🔟 سمّي ١٠</div><div class="h" id="cat" style="text-align:center;font-size:22px;color:var(--gold)">اضغط ابدأ لعرض الفئة</div><button class="btn g" id="go" style="width:100%;margin-top:10px">ابدأ الفئة</button></div>';
+  $('#go').onclick=()=>{playSound('click');$('#cat').textContent=T[Math.floor(Math.random()*T.length)];};
+}
+
+function settings(){
+  const sound=localStorage.getItem('eg_sound')!=='off';
+  app.innerHTML='<div class="panel fade-in"><div class="ttl">⚙️ الإعدادات</div><div class="h">🔊 الصوت <button class="btn" id="snd" style="float:left">'+(sound?'مفعل':'معطل')+'</button></div><button class="btn g" id="save" style="width:100%;margin-top:10px">حفظ</button></div>';
+  $('#snd').onclick=()=>{localStorage.setItem('eg_sound',sound?'off':'on');settings()};
+  $('#save').onclick=()=>{playSound('click');home()};
+}
+
+home();
+</script>
+</body>
+</html>
