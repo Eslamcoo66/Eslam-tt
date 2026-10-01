@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تحدي الشلة - كورة V10</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800;1000&display=swap" rel="stylesheet">
+<style>
+:root{--grass:#1f8a43;--dark:#0e4d24;--line:#f4fff6;--ink:#fff;--gold:#ffd54f;--neon:#00e5ff;--purple:#7c4dff}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0;color:var(--ink);font-family:'Tajawal',sans-serif;background:#080812}
+header{background:#12102a;border-bottom:1px solid rgba(255,213,74,.3);display:flex;align-items:center;justify-content:space-between;padding:10px 16px;min-height:60px}
+#back{background:none;border:0;color:var(--ink);font-size:28px;cursor:pointer;display:none}
+main{padding:15px;max-width:500px;margin:0 auto}
+
+.menu button{display:flex;align-items:center;gap:15px;width:100%;height:65px;margin-bottom:10px;background:rgba(255,255,255,.05);color:var(--ink);border:1px solid rgba(255,255,255,.15);border-radius:15px;font:800 18px Tajawal;cursor:pointer;padding:0 15px}
+.menu button i{font-style:normal;font-size:28px}
+
+.btn{background:var(--dark);color:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 15px;font:800 16px Tajawal;cursor:pointer}
+.btn.g{background:#2e7d32}
+.btn.gold{background:#fbc02d;color:#000}
+
+.row{display:flex;gap:8px;justify-content:center;align-items:center;margin:10px 0;flex-wrap:wrap}
+.panel{background:rgba(18,16,41,0.95);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:18px;margin-bottom:15px}
+.ttl{font-size:22px;font-weight:800;text-align:center;color:var(--gold);margin-bottom:10px}
+
+.hint-step{background:rgba(255,255,255,.08);border-right:4px solid var(--neon);padding:8px;margin:5px 0;font-weight:700}
+.player-bank{display:flex;justify-content:space-between;background:rgba(255,255,255,.05);padding:8px 12px;border-radius:10px;margin-bottom:6px}
+.ans{background:var(--gold);color:#000;border-radius:10px;padding:10px;text-align:center;font-size:20px;font-weight:900;margin:10px 0}
+
+input, select{font:500 16px Tajawal;padding:8px;border-radius:10px;border:1px solid #444;background:#111;color:#fff;flex:1}
+.heroLogo{text-align:center;padding:15px;margin-bottom:15px;background:rgba(124,77,255,.1);border-radius:15px}
+</style>
+</head>
+<body>
+<header>
+  <button id="back" onclick="home()">❮ رجوع</button>
+  <div style="font-weight:900;color:var(--gold)">ESLAM GAMES ⚽</div>
+  <div></div>
+</header>
+<main id="app"></main>
+
+<script>
+const $=s=>document.querySelector(s),app=$('#app');
+
+/* البيانات */
+const DB_WHO = [
+  { n: 'أندرس إنييستا', hints: ['بدأت في ألباسيتي', 'هدف دقيقة 116 في نهائي كاس العالم', 'اللقب: الرسام', 'أسطورة برشلونة وإسبانيا'] },
+  { n: 'زلاتان إبراهيموفيتش', hints: ['لعبت لـ أياكس وبرشلونة وميلان', 'أكثر من 500 هدف أكروباتي', 'اللقب: السلطان', 'أسطورة السويد'] }
+];
+
+const AUCTION_GLOBAL = [
+  {pos: 'حارس', auc: 'كورتوا', free: 'أوبلاك'},
+  {pos: 'مدافع', auc: 'فان دايك', free: 'كوناتي'},
+  {pos: 'وسط', auc: 'دي بروين', free: 'ماديسون'},
+  {pos: 'مهاجم', auc: 'هالاند', free: 'نونيز'}
+];
+
+const DB_CAREER = [
+  { n: 'كريستيانو رونالدو', path: 'لشبونة ⬅️ مانشستر ⬅️ ريال مدريد ⬅️ يوفنتوس ⬅️ النصر' },
+  { n: 'دي ماريا', path: 'روزاريو ⬅️ بنفيكا ⬅️ ريال مدريد ⬅️ مانشستر ⬅️ باريس ⬅️ يوفنتوس' }
+];
+
+const DB_CONNECT = [
+  { items: 'صلاح - هاري كين - سون', ans: 'فازوا بالحذاء الذهبي للبريميرليج' },
+  { items: 'جوارديولا - أنشيلوتي - زيدان', ans: 'فازوا بالأبطال كلاعبين ومدربين' }
+];
+
+const DB_SPEED = [
+  'اذكر 5 أندية فازت بدوري أبطال أوروبا!',
+  'اذكر 5 لاعبين برازيليين لعبوا في البريميرليج!'
+];
+
+function home(){
+  $('#back').style.display='none';
+  app.innerHTML = `
+    <div class="heroLogo">
+      <h2 style="margin:0;color:var(--gold)">🎮 تحدي الشلة الـ 7</h2>
+      <p style="margin:5px 0 0;color:#aaa">اختر الفقرة وابدأ اللعب</p>
+    </div>
+    <div class="menu">
+      <button onclick="auction100M()"><i>💰</i> المزايدة التنافسية</button>
+      <button onclick="whoGame()"><i>🧢</i> فقرة أنا مين</button>
+      <button onclick="careerGame()"><i>🗺️</i> مسيرة لاعب</button>
+      <button onclick="connectGame()"><i>🔗</i> الرابط المشترك</button>
+      <button onclick="speedGame()"><i>⏱️</i> تحدي الـ 30 ثانية</button>
+    </div>
+  `;
+}
+
+/* 1. المزايدة */
+function auction100M(){
+  $('#back').style.display='block';
+  let p1 = { name: 'المتنافس 1', bank: 100 }, p2 = { name: 'المتنافس 2', bank: 100 };
+  let round = 0;
+
+  function run(){
+    if(round >= AUCTION_GLOBAL.length){
+      app.innerHTML = `<div class="panel" style="text-align:center"><h3>🏆 انتهى المزاد!</h3><button class="btn g" onclick="home()">القائمة الرئيسية</button></div>`;
+      return;
+    }
+    const item = AUCTION_GLOBAL[round];
+    app.innerHTML = `
+      <div class="panel">
+        <div class="ttl">المزاد: ${item.auc} (${item.pos})</div>
+        <div class="player-bank"><span>${p1.name}</span><span>💰 ${p1.bank}M</span></div>
+        <div class="player-bank"><span>${p2.name}</span><span>💰 ${p2.bank}M</span></div>
+        <div class="row">
+          <input id="bidPrice" type="number" placeholder="المبلغ M">
+          <select id="winnerSel"><option value="1">${p1.name}</option><option value="2">${p2.name}</option></select>
+        </div>
+        <button class="btn g" id="cBid" style="width:100%">تأكيد الشراء</button>
+        <div id="res"></div>
+      </div>
+    `;
+    $('#cBid').onclick = ()=>{
+      const cost = parseInt($('#bidPrice').value)||0;
+      const w = $('#winnerSel').value;
+      if(w==='1'){ p1.bank-=cost; } else { p2.bank-=cost; }
+      $('#cBid').style.display='none';
+      $('#res').innerHTML = `
+        <div style="background:rgba(0,229,255,0.2);padding:10px;border-radius:10px;margin-top:10px;text-align:center">
+          <b>اللاعب المجاني للمنافس الثاني:</b> <br><span style="color:var(--gold);font-weight:900">${item.free}</span>
+        </div>
+        <button class="btn gold" id="nxt" style="width:100%;margin-top:10px">المزاد التالي ⏩</button>
+      `;
+      $('#nxt').onclick = ()=>{ round++; run(); };
+    };
+  }
+  run();
+}
+
+/* 2. أنا مين */
+function whoGame(){
+  $('#back').style.display='block';
+  let idx = 0, step = 1;
+  function render(){
+    const cur = DB_WHO[idx];
+    let h = cur.hints.slice(0, step).map(x=>`<div class="hint-step">${x}</div>`).join('');
+    app.innerHTML = `
+      <div class="panel">
+        <div class="ttl">🧢 أنا مين؟</div>
+        ${h}
+        <div class="ans" id="wa" hidden>${cur.n}</div>
+        <div class="row">
+          ${step < cur.hints.length ? `<button class="btn g" id="nh">تلميح آخر</button>` : ''}
+          <button class="btn gold" onclick="$('#wa').hidden=!$('#wa').hidden">كشف</button>
+        </div>
+        <button class="btn" onclick="idx=(idx+1)%DB_WHO.length;step=1;render()" style="width:100%;margin-top:10px">التالي 🔄</button>
+      </div>
+    `;
+    if($('#nh')) $('#nh').onclick = ()=>{ step++; render(); };
+  }
+  render();
+}
+
+/* 3. مسيرة لاعب */
+function careerGame(){
+  $('#back').style.display='block';
+  let idx = 0;
+  function render(){
+    const cur = DB_CAREER[idx];
+    app.innerHTML = `
+      <div class="panel">
+        <div class="ttl">🗺️ مسيرة لاعب</div>
+        <div style="text-align:center;padding:15px;font-weight:800">${cur.path}</div>
+        <div class="ans" id="ca" hidden>${cur.n}</div>
+        <div class="row">
+          <button class="btn gold" onclick="$('#ca').hidden=!$('#ca').hidden">كشف</button>
+          <button class="btn g" onclick="idx=(idx+1)%DB_CAREER.length;render()">التالي 🔄</button>
+        </div>
+      </div>
+    `;
+  }
+  render();
+}
+
+/* 4. الرابط المشترك */
+function connectGame(){
+  $('#back').style.display='block';
+  let idx = 0;
+  function render(){
+    const cur = DB_CONNECT[idx];
+    app.innerHTML = `
+      <div class="panel">
+        <div class="ttl">🔗 الرابط المشترك</div>
+        <div style="text-align:center;padding:15px;font-weight:800;color:var(--gold)">${cur.items}</div>
+        <div class="ans" id="cna" hidden style="font-size:16px">${cur.ans}</div>
+        <div class="row">
+          <button class="btn gold" onclick="$('#cna').hidden=!$('#cna').hidden">كشف</button>
+          <button class="btn g" onclick="idx=(idx+1)%DB_CONNECT.length;render()">التالي 🔄</button>
+        </div>
+      </div>
+    `;
+  }
+  render();
+}
+
+/* 5. تحدي 30 ثانية */
+function speedGame(){
+  $('#back').style.display='block';
+  let idx = 0, timer = 30, tm = null;
+  function render(){
+    app.innerHTML = `
+      <div class="panel" style="text-align:center">
+        <div class="ttl">⏱ تحدي الـ 30 ثانية</div>
+        <div style="margin:15px 0;font-weight:800">${DB_SPEED[idx]}</div>
+        <div style="font-size:40px;font-weight:900;color:var(--gold)" id="tb">30</div>
+        <div class="row">
+          <button class="btn g" id="st">ابدأ الوقت ▶️</button>
+          <button class="btn" onclick="clearInterval(tm);idx=(idx+1)%DB_SPEED.length;render()">سؤال آخر 🔄</button>
+        </div>
+      </div>
+    `;
+    $('#st').onclick = ()=>{
+      clearInterval(tm); timer = 30;
+      tm = setInterval(()=>{
+        timer--; $('#tb').textContent = timer;
+        if(timer <= 0){ clearInterval(tm); alert('انتهى الوقت!'); }
+      },1000);
+    };
+  }
+  render();
+}
+
+home();
+</script>
+</body>
+</html>
