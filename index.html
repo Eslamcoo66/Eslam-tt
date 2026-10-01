@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>تحدي الشلة - كورة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--grass:#1f8a43;--grass2:#1a7c3b;--dark:#0e4d24;--line:#f4fff6;--ink:#fff;--gold:#ffd54f;--red:#ff5a4d}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--grass:#14602f;--grass2:#115528;--dark:#083a1b}}
+:root[data-theme="dark"]{--grass:#14602f;--grass2:#115528;--dark:#083a1b}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0}
+body{color:var(--ink);font-family:Tajawal,system-ui,sans-serif;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom,0px);
+ background:repeating-linear-gradient(90deg,var(--grass) 0 56px,var(--grass2) 56px 112px)}
+header{background:var(--dark);border-bottom:3px solid var(--line);display:flex;align-items:center;justify-content:center;position:relative;min-height:66px;padding-top:env(safe-area-inset-top,0px);font-size:25px;font-weight:800}
+#back{position:absolute;right:12px;bottom:12px;background:none;border:0;color:var(--ink);font-size:32px;line-height:1;cursor:pointer;display:none}
+main{flex:1;overflow-y:auto;padding:18px 14px 28px;max-width:560px;width:100%;margin:0 auto}
+.menu button{display:grid;grid-template-columns:112px 1fr;align-items:center;gap:18px;width:100%;min-height:148px;margin:0 0 16px;padding:12px 16px;background:linear-gradient(135deg,var(--dark),#111a24);color:var(--ink);border:3px solid var(--line);border-radius:22px;font:800 21px Tajawal,sans-serif;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.22)}
+.menu button i{font-style:normal;font-size:74px;line-height:1;width:104px;height:104px;display:grid;place-items:center;flex:0 0 104px;border-radius:28px;background:linear-gradient(145deg,rgba(255,213,74,.24),rgba(0,229,255,.14));border:2px solid rgba(255,213,74,.5);box-shadow:0 10px 28px rgba(0,0,0,.35),inset 0 2px 0 rgba(255,255,255,.10);filter:drop-shadow(0 5px 9px rgba(0,0,0,.4));transform:scale(1.02)}
+.menu button span{font-size:26px;font-weight:900;text-align:right;line-height:1.25}.menu button:active{transform:scale(.985)}
+@media(max-width:560px){.menu button{grid-template-columns:102px 1fr;min-height:142px;padding:10px 12px;gap:14px}.menu button i{width:94px;height:94px;flex-basis:94px;font-size:68px;border-radius:25px}.menu button span{font-size:24px}}
+.menu button.soon{opacity:.6;border-style:dashed}
+button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.btn{background:var(--dark);color:#fff;border:3px solid var(--line);border-radius:14px;padding:11px 18px;font:800 18px Tajawal,sans-serif;cursor:pointer}
+.btn:disabled{opacity:.5}
+.row{display:flex;gap:10px;justify-content:center;align-items:center;margin:12px 0;flex-wrap:wrap}
+.status{text-align:center;font-size:22px;font-weight:800;min-height:34px;margin:6px 0 14px}
+.board{background:var(--dark);border:3px solid var(--line);border-radius:14px;padding:10px;text-align:center}
+.xo{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;direction:ltr;max-width:340px;margin:0 auto}
+.xo button{aspect-ratio:1;background:var(--dark);border:3px solid var(--line);border-radius:14px;font-size:46px;color:#fff;cursor:pointer;padding:0}
+.c4{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;direction:ltr;background:var(--dark);border:3px solid var(--line);padding:8px;border-radius:14px;max-width:420px;margin:0 auto}
+.c4 button{aspect-ratio:1;border-radius:50%;border:0;background:var(--grass);padding:0;cursor:pointer}
+.c4 .r{background:var(--red)}.c4 .y{background:var(--gold)}
+.card{background:var(--dark);border:3px solid var(--line);border-radius:22px;min-height:190px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:36px;font-weight:800;padding:20px;margin:10px 0}
+.big{font-size:46px;font-weight:800;text-align:center}
+.goal{position:relative;height:150px;border:3px solid var(--line);border-bottom:0;border-radius:10px 10px 0 0;margin:10px auto;max-width:360px;background:repeating-linear-gradient(45deg,transparent 0 10px,rgba(255,255,255,.18) 10px 11px);font-size:60px;display:flex;align-items:center;justify-content:center}
+.dirs .btn{flex:1;min-width:90px}
+.dots{font-size:26px;letter-spacing:4px;text-align:center;min-height:40px}
+.sheet .p{display:flex;align-items:center;gap:8px;background:var(--dark);border:3px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:10px}
+.sheet .p b{flex:1;font-size:19px}.sheet .p span{font-size:28px;font-weight:800;min-width:44px;text-align:center}
+.sheet .p button{width:42px;height:42px;border-radius:50%;border:0;font-size:24px;font-weight:800;background:var(--gold);color:#222;cursor:pointer}
+input{font:500 18px Tajawal,sans-serif;padding:12px;border-radius:12px;border:3px solid var(--line);background:var(--dark);color:#fff;flex:1;min-width:0}
+input::placeholder{color:#b9dcc3}
+.soonmsg{text-align:center;margin-top:40px;font-size:22px;font-weight:700}
+
+:root{--panel:#f2fbf4;--ptext:#0e3d1f;--pline:#8fd0a5;--pfill:#e3f6e8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--panel:#0c3a1c;--ptext:#e6f7ea;--pline:#2f7d4a;--pfill:#0f4a24}}
+:root[data-theme="dark"]{--panel:#0c3a1c;--ptext:#e6f7ea;--pline:#2f7d4a;--pfill:#0f4a24}
+.panel{background:var(--panel);color:var(--ptext);border-radius:26px;padding:18px;margin-bottom:18px}
+.trow{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.ttl{font-size:26px;font-weight:800}
+.pill{background:var(--dark);color:#fff;border-radius:40px;padding:12px 28px;font-size:34px;font-weight:800;letter-spacing:3px;direction:ltr}
+.panel .btn{background:var(--pfill);color:var(--ptext);border:2px solid var(--pline);flex:1}
+.panel .btn.g{background:#43a047;color:#fff;border-color:#43a047}
+.panel .btn:disabled{opacity:.45}
+.chip{width:max-content;margin:6px auto;padding:6px 16px;border-radius:20px;background:var(--pfill);font-weight:700}
+.chip.on{background:#c8f0d0}.chip.end{background:#ffd0cc;color:#7a1a12}
+.note{text-align:center;font-weight:700;margin:6px 0 0}
+.qh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.badge{background:var(--pfill);border:2px solid var(--pline);border-radius:20px;padding:6px 16px;font-weight:800}
+.ic{width:52px;height:52px;border-radius:14px;background:#fb8c00;display:flex;align-items:center;justify-content:center;font-size:28px}
+.h{border:2px solid var(--pline);background:var(--pfill);border-radius:14px;padding:16px;margin-bottom:12px;font-size:18px;font-weight:700}
+.path{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin:10px 0 16px}
+.cl{background:var(--pfill);border:2px solid var(--pline);border-radius:12px;padding:8px 12px;font-weight:800}
+.ar{font-size:22px;font-weight:800}
+.ask{text-align:center;font-weight:800;font-size:19px;margin:4px 0}
+.ans{background:var(--gold);color:#222;border-radius:14px;padding:14px;text-align:center;font-size:26px;font-weight:800;margin:6px 0 12px}
+.row2{display:flex;gap:10px}.row2 .wide{flex:1}.row2 .rf{flex:0 0 64px;font-size:26px;padding:8px}
+.btn.sel{background:var(--gold)!important;color:#222!important;border-color:var(--gold)!important}.pcard{min-height:120px;font-size:34px}.tm{margin-bottom:14px}.tm b{display:block;font-size:20px;margin-bottom:6px}
+
+:root{--gold:#ffd54a;--neon:#00e5ff;--purple:#7c4dff}
+body{background:radial-gradient(circle at 20% 0%,#17113b 0,#080812 38%,#050509 100%);}
+header{background:linear-gradient(135deg,#08080d,#12102a 55%,#09090f);border-bottom:1px solid rgba(255,213,74,.28);box-shadow:0 8px 35px rgba(0,0,0,.35)}
+.brand{display:flex;align-items:center;gap:12px;direction:ltr;cursor:pointer}
+.brandMark{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:conic-gradient(from 210deg,var(--gold),#ff7a00,var(--neon),var(--purple),var(--gold));box-shadow:0 0 24px rgba(0,229,255,.25);font-size:25px}
+.brandText{font-weight:1000;letter-spacing:.5px;font-size:20px;background:linear-gradient(90deg,#fff,var(--gold),var(--neon));-webkit-background-clip:text;background-clip:text;color:transparent}
+.brandSub{display:block;font-size:9px;letter-spacing:3px;color:#9b9bb0;margin-top:1px}
+.heroLogo{margin:18px auto 22px;max-width:520px;text-align:center;padding:25px 18px;border-radius:28px;background:linear-gradient(145deg,rgba(124,77,255,.18),rgba(0,229,255,.07));border:1px solid rgba(255,213,74,.18);box-shadow:0 20px 60px rgba(0,0,0,.3),inset 0 1px rgba(255,255,255,.05)}
+.heroLogo .bigLogo{font-size:44px;font-weight:1000;letter-spacing:1px;background:linear-gradient(90deg,#fff 15%,var(--gold) 50%,var(--neon) 90%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 35px rgba(0,229,255,.18)}.heroAccessory{display:flex;justify-content:center;align-items:center;gap:22px;font-size:30px;margin-bottom:2px}.heroAccessory b{font-size:18px;color:var(--gold);text-shadow:0 0 18px var(--gold)}.heroLine{height:2px;width:130px;margin:10px auto 6px;background:linear-gradient(90deg,transparent,var(--gold),var(--neon),transparent);box-shadow:0 0 14px rgba(0,229,255,.35)}.heroLogo p{letter-spacing:3px;font-size:11px}.bidBox{border:1px solid var(--pline);background:rgba(255,255,255,.3);border-radius:18px;padding:12px}.photoSolo{text-align:center;background:#0e0e18;border:1px solid #29293a;border-radius:22px;padding:14px;margin:12px 0}.roleBadge{display:inline-block;padding:7px 14px;border-radius:20px;background:var(--gold);color:#222;font-weight:900;margin-bottom:10px}.myPlayer{width:min(100%,390px);aspect-ratio:1;object-fit:cover;border-radius:20px;display:block;margin:auto;box-shadow:0 0 35px rgba(0,229,255,.12)}
+.heroLogo p{margin:7px 0 0;color:#a9a9bd;font-weight:700}
+.homeTools{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin:0 auto 16px}
+.homeTools .mini{width:auto;padding:10px 14px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:#fff;font-weight:800}
+.photoGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.phone{padding:14px;border-radius:22px;background:#0e0e18;border:1px solid #29293a;text-align:center}.phone img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:18px;background:#191925}.phone h3{margin:10px 0 5px}.hiddenPlayer{filter:blur(18px);transform:scale(1.03)}
+@media(max-width:560px){.photoGrid{grid-template-columns:1fr}.heroLogo .bigLogo{font-size:36px}}
+</style>
+</head>
+<body>
+<header><button id="back" aria-label="رجوع">&#8250;</button><div class="brand" onclick="home()"><div class="brandMark">⚽</div><div><div class="brandText">ESLAM GAMES</div><span class="brandSub">FOOTBALL • PARTY • CHALLENGE</span></div></div></header>
+<main id="app"></main>
+<script>
+const $=s=>document.querySelector(s),app=$('#app');
+const sh=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
+let tm=null;
+let LIVE_DATA={who:[],trans:[],auction:[],updatedAt:null};
+async function loadLiveData(){try{const r=await fetch('data/live.json?x='+Date.now(),{cache:'no-store'});if(r.ok)LIVE_DATA=await r.json()}catch(e){console.warn('live data unavailable',e)}}
+const GAMES=[
+ ['⚽','إكس أو بالكورة',xo],['🥅','ضربات جزاء',pen],['🧢','أنا مين',who],['🔁','الانتقالات',trans],['💰','المزايدة',auction],['🔟','سمّي ١٠',topTen],
+ ['🔴','كونكت فور',c4],['📋','سكور شيت',score],['🚩','أوفسايد'],['📸','مين اللاعب؟',photoGame],['⚙️','الإعدادات',settings]
+];
+function home(){
+  clearInterval(tm);$('#back').style.display='none';
+  app.innerHTML='<div class="heroLogo"><div class="heroAccessory"><span>⚽</span><b>✦</b><span>🏆</span></div><div class="bigLogo">ESLAM GAMES</div><div class="heroLine"></div><p>FOOTBALL • PARTY • CHALLENGE</p></div><div class="homeTools"><button class="mini" onclick="settings()">⚙️ الإعدادات</button><button class="mini" onclick="photoGame()">📸 مين اللاعب؟</button><button class="mini" onclick="score()">🏆 النقاط</button></div><div class="menu"></div>';
+  GAMES.forEach(g=>{const b=document.createElement('button');if(!g[2])b.className='soon';
+    b.innerHTML='<i>'+g[0]+'</i><span></span>';b.lastChild.textContent=g[1];b.onclick=()=>{
+    $('#back').style.display='block';
+    g[2]?g[2]():app.innerHTML='<p class="soonmsg">اللعبة دي جاية قريب 🚧</p>'};app.firstChild.appendChild(b)});
+}
+$('#back').onclick=home;
+loadLiveData().finally(home);
+
+let photoSeen=[];
+function photoGame(){
+  const pool=(LIVE_DATA.who||[]).filter(x=>x.photo).concat([
+    {n:'محمد صلاح',photo:'https://media.api-sports.io/football/players/306.png'},
+    {n:'كريستيانو رونالدو',photo:'https://media.api-sports.io/football/players/874.png'},
+    {n:'ليونيل ميسي',photo:'https://media.api-sports.io/football/players/154.png'},
+    {n:'نيمار',photo:'https://media.api-sports.io/football/players/276.png'},
+    {n:'كيليان مبابي',photo:'https://media.api-sports.io/football/players/278.png'},
+    {n:'محمد النني',photo:'https://media.api-sports.io/football/players/144.png'},
+    {n:'تريزيجيه',photo:'https://media.api-sports.io/football/players/246.png'},
+    {n:'عمر مرموش',photo:'https://media.api-sports.io/football/players/1106.png'}
+  ]);
+  const uniq=[...new Map(pool.map(x=>[x.n,x])).values()];
+  if(!uniq.length){app.innerHTML='<div class="panel"><div class="ttl">📸 مين اللاعب؟</div><p class="note">مفيش صور لاعبين متاحة حالياً.</p></div>';return}
+  let available=uniq.filter(x=>!photoSeen.includes(x.n));
+  if(!available.length){photoSeen=[];available=uniq}
+  const current=available[Math.floor(Math.random()*available.length)];
+  photoSeen.push(current.n);
+  app.innerHTML='<div class="panel"><div class="ttl">📸 مين اللاعب؟</div><div class="photoSolo"><img src="'+current.photo+'" class="myPlayer" alt="لاعب كرة قدم"><div class="row" style="margin-top:16px"><button class="btn g" id="newPhoto">🎲 صورة جديدة</button><button class="btn" id="showName">👀 إظهار الاسم</button></div><div class="h" id="answer" style="display:none;text-align:center;font-size:24px">'+current.n+'</div></div></div>';
+  $('#newPhoto').onclick=photoGame;
+  $('#showName').onclick=()=>{$('#answer').style.display='block';$('#showName').textContent='✅ '+current.n};
+}
+
+function settings(){
+  const lang=localStorage.getItem('eg_lang')||'ar',sound=localStorage.getItem('eg_sound')!=='off';
+  app.innerHTML='<div class="panel"><div class="ttl">⚙️ إعدادات Eslam Games</div><div class="h">🌐 اللغة <select id="lang" style="float:left;background:var(--pfill);color:var(--ptext);padding:8px;border-radius:10px"><option value="ar">العربية</option><option value="en">English</option></select></div><div class="h">🔊 الصوت <button class="btn" id="snd">'+(sound?'تشغيل':'إيقاف')+'</button></div><div class="h">💰 رصيد المزايدة الافتراضي <input id="bal" type="number" min="10" max="1000" value="'+(localStorage.getItem('eg_balance')||100)+'" style="width:90px;background:var(--pfill);color:var(--ptext);border-color:var(--pline)"></div><div class="h">🔄 آخر تحديث لاعبين <span id="upd">'+(LIVE_DATA.updatedAt||'محلي')+'</span></div><button class="btn g" id="save" style="width:100%">حفظ الإعدادات</button><button class="btn" id="reset" style="width:100%;margin-top:10px">مسح الإعدادات المحلية</button><p class="note">بيانات اللاعبين تتحدث من خلال GitHub Actions، ومفتاح API لا يوضع داخل الموقع.</p></div>';
+  $('#lang').value=lang; $('#snd').onclick=()=>{localStorage.setItem('eg_sound',sound?'off':'on');settings()};
+  $('#save').onclick=()=>{localStorage.setItem('eg_lang',$('#lang').value);localStorage.setItem('eg_balance',$('#bal').value);settings()};
+  $('#reset').onclick=()=>{localStorage.clear();settings()};
+}
+
+
+function xo(){
+  let b=Array(9).fill(''),t='⚽',over=false;
+  const L=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  app.innerHTML='<div class="status" id="st">الدور على: ⚽</div><div class="xo" id="g"></div><div class="row"><button class="btn" id="rs">ماتش جديد</button></div>';
+  const st=$('#st'),g=$('#g');
+  function draw(){g.innerHTML='';b.forEach((v,i)=>{const c=document.createElement('button');c.textContent=v;c.setAttribute('aria-label','خانة '+(i+1));
+    c.onclick=()=>{if(over||b[i])return;b[i]=t;
+      if(L.some(l=>l.every(k=>b[k]===t))){over=true;st.textContent='🏆 الفايز: '+t}
+      else if(b.every(Boolean)){over=true;st.textContent='تعادل 🤝'}
+      else{t=t==='⚽'?'🥅':'⚽';st.textContent='الدور على: '+t}draw()};g.appendChild(c)})}
+  $('#rs').onclick=xo;draw();
+}
+
+function pen(){
+  const D=['شمال','وسط','يمين'],E=['⬅️','⬆️','➡️'];let n=0,s=0,res=[];
+  app.innerHTML='<div class="status" id="st">اختار هتشوط فين — 5 ضربات</div><div class="goal" id="gl">🧤</div><div class="dots" id="ds"></div><div class="row dirs" id="bt"></div><div class="row"><button class="btn" id="rs" style="display:none">ماتش جديد</button></div>';
+  D.forEach((d,i)=>{const b=document.createElement('button');b.className='btn';b.textContent=E[i]+' '+d;
+    b.onclick=()=>{const k=Math.floor(Math.random()*3),goal=k!==i;n++;if(goal)s++;res.push(goal?'⚽':'❌');
+      $('#gl').textContent=goal?'⚽ جووول':'🧤 الحارس صدّها';$('#ds').textContent=res.join(' ');
+      if(n===5){$('#st').textContent='النتيجة: '+s+' من 5 '+(s>=4?'🔥':s>=3?'👏':'😅');$('#bt').style.display='none';$('#rs').style.display='inline-block'}
+      else $('#st').textContent='الضربة '+(n+1)+' من 5'};$('#bt').appendChild(b)});
+  $('#rs').onclick=pen;
+}
+
+function timerCard(onReset){
+  let left=60,run=false;
+  const el=document.createElement('div');el.className='panel';
+  el.innerHTML='<div class="trow"><div class="ttl">⏱ المؤقت</div><div class="pill">1:00</div></div><div class="row"><button class="btn g" data-a="go">▶ بدء</button><button class="btn" data-a="ps" disabled>⏸ إيقاف</button><button class="btn" data-a="rs">↻ إعادة</button></div><div style="text-align:center"><span class="chip">متوقف</span></div><p class="note">تقدر تغير اللاعب مرة واحدة فقط</p>';
+  const q=s=>el.querySelector(s),b=a=>q('[data-a='+a+']');
+  function upd(){q('.pill').textContent=Math.floor(left/60)+':'+String(left%60).padStart(2,'0');
+    const c=q('.chip');c.textContent=run?'شغال':left===0?'الوقت خلص':'متوقف';c.className='chip'+(run?' on':left===0?' end':'');
+    b('go').disabled=run||left===0;b('ps').disabled=!run}
+  b('go').onclick=()=>{run=true;upd();clearInterval(tm);tm=setInterval(()=>{left--;if(left<=0){left=0;run=false;clearInterval(tm)}upd()},1000)};
+  b('ps').onclick=()=>{run=false;clearInterval(tm);upd()};
+  b('rs').onclick=()=>{clearInterval(tm);run=false;left=60;upd();onReset()};
+  return el;
+}
+const LS=k=>'tk_'+k;
+function loadX(k,D){try{JSON.parse(localStorage.getItem(LS(k))||'[]').forEach(x=>{if(x&&x.n&&!D.some(d=>d.n===x.n))D.push(x)})}catch(e){}}
+function gen(k,D,msg,cnt){
+  const extraWho=[
+    {n:'راؤول جونزاليس',h:['اتولدت في مدريد','بدأت مع ريال مدريد وكنت قائدًا له','لبست الرقم 7 مع النادي والمنتخب','فزت بدوري أبطال أوروبا أكثر من مرة','لعبت لاحقًا في ألمانيا وقطر']},
+    {n:'تشابي ألونسو',h:['اتولدت في تولوسا بإسبانيا','لعبت لريال سوسيداد وليفربول وريال مدريد','فزت بدوري الأبطال مع ريال مدريد','كنت لاعب وسط معروف بالتمرير الطويل','درّبت باير ليفركوزن بعد مسيرتي كلاعب']},
+    {n:'سيرجيو راموس',h:['اتولدت في إشبيلية','بدأت مع إشبيلية قبل ريال مدريد','لبست الرقم 4 في ريال مدريد','سجلت هدف التعادل في نهائي دوري الأبطال 2014','فزت بكأس العالم مع إسبانيا']},
+    {n:'لويس فيجو',h:['اتولدت في لشبونة','لعبت لسبورتنج وبرشلونة وريال مدريد','انتقلت من برشلونة إلى ريال مدريد','فزت بالكرة الذهبية سنة 2000','كنت قائدًا للبرتغال']},
+    {n:'كاكا',h:['اتولدت في برازيليا','لعبت لميلان وريال مدريد','فزت بدوري الأبطال مع ميلان','حصلت على الكرة الذهبية سنة 2007','كنت ضمن منتخب البرازيل في كأس العالم']},
+    {n:'فرانك لامبارد',h:['اتولدت في لندن','لعبت أغلب مسيرتي مع تشيلسي','كنت لاعب وسط هدافًا','فزت بدوري الأبطال مع تشيلسي','درّبت تشيلسي وإيفرتون']}
+  ];
+  const extraTrans=[
+    {n:'لويس فيجو',c:['سبورتنج لشبونة','برشلونة','ريال مدريد','إنتر ميلان']},
+    {n:'سيرجيو راموس',c:['إشبيلية','ريال مدريد','باريس سان جيرمان','إشبيلية']},
+    {n:'تشابي ألونسو',c:['ريال سوسيداد','ليفربول','ريال مدريد','بايرن ميونخ']},
+    {n:'كاكا',c:['ساو باولو','ميلان','ريال مدريد','أورلاندو سيتي']},
+    {n:'راؤول جونزاليس',c:['ريال مدريد','شالكه','السد','نيويورك كوزموس']},
+    {n:'فرانك لامبارد',c:['وست هام','تشيلسي','مانشستر سيتي','نيويورك سيتي']}
+  ];
+  const pool=k==='who'?extraWho:extraTrans;
+  const add=pool.filter(x=>!D.some(d=>d.n===x.n));
+  add.forEach(x=>D.push(x));
+  try{localStorage.setItem(LS(k),JSON.stringify(D))}catch(e){}
+  msg('✅ تم تحديث قاعدة اللاعبين');cnt();
+}
+function quiz(D,body,ask,kind){
+  if(kind)loadX(kind,D);
+  const resets=[],seen=new Set();
+  const next=()=>{let a=D.filter(x=>!seen.has(x.n));if(!a.length){seen.clear();a=D}const x=a[Math.floor(Math.random()*a.length)];seen.add(x.n);return x};
+  app.innerHTML='';app.appendChild(timerCard(()=>resets.forEach(f=>f())));
+  for(let n=1;n<=10;n++){
+    let cur=next(),used=false;
+    const c=document.createElement('div');c.className='panel';
+    c.innerHTML='<div class="qh"><span class="badge">السؤال '+n+'</span><span class="ic">⚽</span></div><div class="qb"></div><div class="ans" hidden></div><div class="row2"><button class="btn wide sa">👁 إظهار الإجابة</button><button class="btn rf" aria-label="لاعب تاني">↻</button></div>';
+    const qb=c.querySelector('.qb'),an=c.querySelector('.ans'),sa=c.querySelector('.sa'),rf=c.querySelector('.rf');
+    const draw=()=>{qb.innerHTML=(ask?'<p class="ask">'+ask+'</p>':'')+body(cur);an.hidden=true;sa.textContent='👁 إظهار الإجابة'};
+    sa.onclick=()=>{an.hidden=!an.hidden;an.textContent='الإجابة: '+cur.n;sa.textContent=an.hidden?'👁 إظهار الإجابة':'إخفاء الإجابة'};
+    rf.onclick=()=>{if(used)return;used=true;rf.disabled=true;cur=next();draw()};
+    resets.push(()=>{used=false;rf.disabled=false});
+    draw();app.appendChild(c);
+  }
+  if(kind){const bx=document.createElement('div');bx.className='panel';
+    bx.innerHTML='<div class="ttl" style="font-size:20px">🗄️ عدد اللاعبين في القاعدة: <span class="cnt"></span></div><p class="note msg"></p><button class="btn gen" style="width:100%">➕ ضيف ١٢ لاعب جديد (Claude)</button>';
+    const cnt=()=>bx.querySelector('.cnt').textContent=D.length,msg=t=>bx.querySelector('.msg').textContent=t;
+    cnt();bx.querySelector('.gen').onclick=()=>gen(kind,D,msg,cnt);app.appendChild(bx);
+    // لا نعتمد على خدمة خارجية حتى تعمل اللعبة بشكل مستقل على الهاتف وGitHub Pages.
+  }
+}
+function who(){
+  const D=[
+   {n:'ليونيل ميسي',h:['انتقلت لأوروبا وعمري ١٣ سنة وأنا بتعالج من نقص هرمون النمو','سجلت ٩١ هدف في سنة ميلادية واحدة','لبست رقم ٣٠ قبل ما ألبس رقم ١٠','أول لقب كبير مع منتخب بلدي كان كوبا أمريكا ٢٠٢١','آخر محطة ليا بعد باريس كانت في الدوري الأمريكي']},
+   {n:'كريستيانو رونالدو',h:['اتولدت في جزيرة ماديرا','بدأت احتراف وأنا ١٧ سنة في نادي بلشبونة','فزت بالدوري في إنجلترا وإسبانيا وإيطاليا','سجلت أكتر من ٤٥٠ هدف مع نادي واحد','سجلت في خمس نسخ مختلفة من كأس العالم']},
+   {n:'محمد صلاح',h:['اتولدت في قرية اسمها نجريج في الغربية','وأنا صغير كنت بسافر حوالي ٤ ساعات في اليوم عشان أتمرن','تجربتي الأولى في إنجلترا ما نجحتش وروحت إيطاليا إعارة','سجلت ٣٢ هدف في موسم واحد بالدوري الإنجليزي (رقم قياسي لموسم ٣٨ جولة)','فزت بكأس العالم للأندية سنة ٢٠١٩']},
+   {n:'محمد أبو تريكة',h:['اتولدت في بولاق الدكرور','بدأت في نادي ترسانة قبل ما أروح الأهلي','لبست رقم ٢٢ في الأهلي','في ٢٠٠٨ رفعت قميص تضامن مع غزة بعد ما سجلت هدف في كأس الأمم','اتختارت أفضل لاعب في أفريقيا سنة ٢٠٠٨']},
+   {n:'زين الدين زيدان',h:['اتولدت في مرسيليا لأب جزائري','بدأت احتراف في نادي كان','لبست رقم ٢١ في يوفنتوس ورقم ٥ في ريال مدريد','ريال دفع فيا رقم قياسي وقتها حوالي ٧٧ مليون يورو','اتطردت في نهائي كأس العالم ٢٠٠٦ في آخر ماتش في مسيرتي']},
+   {n:'دييجو مارادونا',h:['ظهرت لأول مرة وأنا قبل ما أكمل ١٦ سنة','اتشال اسمي من قايمة كأس العالم ١٩٧٨ وأنا ١٧ سنة','اتوقفت ١٥ شهر سنة ١٩٩١ بعد تحليل مخدرات','اتطردت من كأس العالم ١٩٩٤ بعد تحليل منشطات','نادي اتسحب رقم ١٠ تكريمًا ليا ومتلبسوش حد بعدي']},
+   {n:'بيليه',h:['اسمي الحقيقي إدسون أرانتيس دو ناسيمنتو','اتولدت في بلدة اسمها ترس كوراسويس','لعبت لنادي واحد تقريبًا ١٨ سنة','سجلت هدفين في نهائي كأس العالم وأنا ١٧ سنة','اشتغلت وزير للرياضة في بلدي في التسعينات']},
+   {n:'كيليان مبابي',h:['اتولدت في بوندي في ضواحي باريس','اتعلمت في أكاديمية كليرفونتين','انتقالي لباريس كان ١٨٠ مليون يورو (إعارة ثم شراء)','كنت تاني مراهق يسجل في نهائي كأس العالم بعد بيليه','مشيت من باريس مجانًا سنة ٢٠٢٤']},
+   {n:'إيرلينج هالاند',h:['اتولدت في ليدز في إنجلترا','بدأت في نادي صغير اسمه برين','سجلت ٩ أهداف في ماتش واحد في كأس العالم للشباب ٢٠١٩','لعبت لسالزبورج ودورتموند قبل ما أرجع لإنجلترا','سجلت ٣٦ هدف في أول موسم ليا بالدوري الإنجليزي']},
+   {n:'زلاتان إبراهيموفيتش',h:['اتولدت في روزنجورد في مالمو','معايا حزام أسود في التايكوندو','أبويا بوسني وأمي كرواتية','سجلت هدف أكروباتي من حوالي ٣٠ متر ضد إنجلترا سنة ٢٠١٢','مشيت من برشلونة بعد موسم واحد بس']},
+   {n:'نيمار',h:['اتولدت في موجي داس كروزيس','اسمي بالكامل نيمار دا سيلفا سانتوس جونيور','انتقالي لباريس كان ٢٢٢ مليون يورو رقم قياسي','اتصبت بكسر في فقرة ضهري في كأس العالم ٢٠١٤','رجعت لناديني القديم بعد تجربة في السعودية']},
+   {n:'رونالدينيو',h:['اتولدت في بورتو أليجري','سجلت ضربة حرة من حوالي ٣٥ متر خدعت الحارس في ربع نهائي كأس العالم ٢٠٠٢','لعبت لجريميو قبل ما أروح أوروبا','اتسجنت في باراجواي سنة ٢٠٢٠ بسبب جواز سفر مزور','لقبي الأول كان أفضل لاعب في العالم سنة ٢٠٠٤']},
+   {n:'جانلويجي بوفون',h:['اتولدت في كارارا','بدأت مسيرتي في بارما','اتباعت ليوفنتوس بمبلغ قياسي لحارس وقتها حوالي ٥١ مليون يورو','فضلت مع ناديني بعد ما نزل للدرجة التانية بسبب فضيحة','كنت ضمن ٥ نسخ من كأس العالم']},
+   {n:'إيكر كاسياس',h:['اتولدت في موستوليس','قضيت حوالي ٢٥ سنة في نادي واحد من الشباب للأول','كنت قائد منتخب بلدي في يورو ٢٠١٢ وكأس العالم ٢٠١٠','لعبت في بورتو بعد ما سبت ناديني','اتعرضت لأزمة قلبية في تمرين سنة ٢٠١٩']},
+   {n:'فرانشيسكو توتي',h:['اتولدت في روما وعمري كله في نادي واحد','قعدت ٢٥ سنة في الفريق الأول','عملت تسديدة بالملعقة ضد هولندا في يورو ٢٠٠٠','فزت بكأس العالم ٢٠٠٦','لقبي بيقولوا عليا "الإمبراطور"']},
+   {n:'عصام الحضري',h:['اتولدت في دمياط','لعبت في نادي سيون السويسري','لعبت في كأس العالم وعمري ٤٥ سنة','صديت ضربة جزاء في كأس العالم ٢٠١٨','كنت حارس المنتخب في كأس الأمم ٢٠٠٦ و٢٠٠٨ و٢٠١٠']},
+   {n:'لوكا مودريتش',h:['عشت طفولتي لاجئ بسبب الحرب في بلدي','اتعلمت في دينامو زغرب وروحت إعارة للبوسنة','فزت بالكرة الذهبية سنة ٢٠١٨ بعد ١٠ سنين من هيمنة ميسي ورونالدو','قدت بلدي لنهائي كأس العالم ٢٠١٨','لعبت لتوتنهام قبل ما أروح ريال مدريد']},
+   {n:'ديدييه دروجبا',h:['اتولدت في أبيدجان واتربيت في فرنسا عند عمي','بدأت احتراف متأخر بعد سن ٢١','سجلت هدف التعادل ثم ضربة الجزاء الحاسمة في نهائي دوري الأبطال ٢٠١٢','لعبت في شنغهاي شينهوا في الصين','نداء ليا بعد التأهل لكأس العالم ٢٠٠٥ ساعد في وقف الحرب الأهلية في بلدي']},
+   {n:'صامويل إيتو',h:['اتولدت في دوالا','فزت بالثلاثية مرتين مع ناديين مختلفين','سجلت في نهائيين لدوري الأبطال','لعبت في أنجي الروسي','فزت بالكرة الذهبية الأفريقية ٤ مرات']},
+   {n:'أندريا بيرلو',h:['اتولدت في بريشيا','اتحولت من مهاجم لصانع ألعاب بقرار من مدربي','لعبت لميلان وإنتر ويوفنتوس','عملت ركلة جزاء بطريقة بانينكا ضد إنجلترا في يورو ٢٠١٢','اتلقبت "المعلم"']}
+  ];
+  const live=Array.isArray(LIVE_DATA.who)?LIVE_DATA.who:[];
+  const D0=D;
+  const E={'ليونيل ميسي':['بدأت مشواري الأوروبي في إسبانيا قبل سن ١٤ سنة','لبست الرقم ٣٠ قبل الرقم ١٠'],'كريستيانو رونالدو':['بدأت مع الفريق الأول في البرتغال وأنا مراهق','أول مباراة دولية ليا كانت سنة ٢٠٠٣'],'محمد صلاح':['بدأت مشواري الأوروبي في سويسرا','لعبت في إيطاليا قبل العودة لإنجلترا'],'محمد أبو تريكة':['ارتبط اسمي بالرقم ٢٢ مع الأهلي','سجلت في نهائي دوري أبطال أفريقيا ٢٠٠٦'],'زين الدين زيدان':['لعبت نهائي كأس العالم ١٩٩٨ وسجلت فيه','كنت صانع ألعاب قبل الاعتزال'],'دييجو مارادونا':['لعبت في إسبانيا قبل نابولي','ارتديت الرقم ١٠ مع منتخب بلادي'],'بيليه':['قضيت معظم مسيرتي مع سانتوس','سجلت في نهائي كأس العالم وأنا في السابعة عشرة'],'كيليان مبابي':['بدأت مع موناكو قبل باريس','سجلت في نهائي كأس العالم قبل سن ٢٠'],'إيرلينج هالاند':['لعبت في النمسا وألمانيا قبل إنجلترا','والدي كان لاعب كرة قدم محترفًا'],'زلاتان إبراهيموفيتش':['لعبت في هولندا وإيطاليا وإسبانيا وفرنسا وإنجلترا','سجلت هدفًا شهيرًا بالكعب مع منتخب بلادي'],'نيمار':['لعبت في إسبانيا وفرنسا قبل العودة للبرازيل','ارتديت شارة قيادة منتخب بلادي في أكثر من مناسبة'],'رونالدينيو':['بدأت مشواري الأوروبي في فرنسا قبل إسبانيا','كنت ضمن منتخب البرازيل المتوج بكأس العالم ٢٠٠٢'],'جانلويجي بوفون':['ظهرت دوليًا قبل سن ٢٠','كنت قائدًا لمنتخب بلادي في بطولات كبرى'],'إيكر كاسياس':['ظهرت مع الفريق الأول لريال مدريد وأنا مراهق','كنت قائد إسبانيا في كأس العالم ٢٠١٠'],'فرانشيسكو توتي':['قضيت مسيرتي تقريبًا مع نادٍ واحد','لعبت خلف المهاجمين معظم مسيرتي'],'عصام الحضري':['شاركت في كأس العالم وأنا في الخامسة والأربعين','خضت تجربة احترافية في سويسرا'],'لوكا مودريتش':['خضت إعارة خارج كرواتيا في بداية مسيرتي','حققت دوري الأبطال أكثر من مرة مع ريال مدريد'],'ديدييه دروجبا':['لعبت في فرنسا قبل تشيلسي','سجلت في نهائي دوري الأبطال ٢٠١٢'],'صامويل إيتو':['لعبت في إسبانيا وإيطاليا وإنجلترا وروسيا','سجلت في نهائي دوري الأبطال مع برشلونة وإنتر'],'أندريا بيرلو':['بدأت هجوميًا قبل الاستقرار كلاعب وسط','لعبت لأندية إيطالية كبيرة مثل ميلان وإنتر ويوفنتوس']};
+  D.forEach(d=>{if(E[d.n])d.h=d.h.concat(E[d.n])});
+  quiz(D.concat(live),x=>x.h.map(t=>'<div class="h">'+t+'</div>').join(''),'','who');
+}
+function trans(){
+  const D=[
+   {n:'ليونيل ميسي',c:['نيويلز أولد بويز','برشلونة','باريس سان جيرمان','إنتر ميامي']},
+   {n:'كريستيانو رونالدو',c:['سبورتينج لشبونة','مانشستر يونايتد','ريال مدريد','يوفنتوس','مانشستر يونايتد','النصر']},
+   {n:'محمد صلاح',c:['المقاولون العرب','بازل','تشيلسي','فيورنتينا','روما','ليفربول']},
+   {n:'نيمار',c:['سانتوس','برشلونة','باريس سان جيرمان','الهلال','سانتوس']},
+   {n:'زلاتان إبراهيموفيتش',c:['مالمو','أياكس','يوفنتوس','إنتر','برشلونة','ميلان','باريس سان جيرمان','مانشستر يونايتد','لوس أنجلوس جالاكسي','ميلان']},
+   {n:'ديفيد بيكهام',c:['مانشستر يونايتد','ريال مدريد','لوس أنجلوس جالاكسي','ميلان (إعارة)','باريس سان جيرمان']},
+   {n:'تييري هنري',c:['موناكو','يوفنتوس','أرسنال','برشلونة','نيويورك ريد بولز']},
+   {n:'روبرت ليفاندوفسكي',c:['زنيتش بروشكوف','ليخ بوزنان','بوروسيا دورتموند','بايرن ميونخ','برشلونة']},
+   {n:'لويس سواريز',c:['ناسيونال','جرونينجن','أياكس','ليفربول','برشلونة','أتلتيكو مدريد']},
+   {n:'كاكا',c:['ساو باولو','ميلان','ريال مدريد','ميلان','أورلاندو سيتي']},
+   {n:'محمد النني',c:['المقاولون العرب','بازل','أرسنال','بشكتاش (إعارة)','أرسنال','الجزيرة']},
+   {n:'أنطوان جريزمان',c:['ريال سوسيداد','أتلتيكو مدريد','برشلونة','أتلتيكو مدريد']},
+   {n:'كيفين دي بروين',c:['جينك','تشيلسي','فيردر بريمن (إعارة)','فولفسبورج','مانشستر سيتي']},
+   {n:'روميلو لوكاكو',c:['أندرلخت','تشيلسي','وست بروميتش (إعارة)','إيفرتون','مانشستر يونايتد','إنتر','تشيلسي','روما']},
+   {n:'إدينسون كافاني',c:['دانوبيو','باليرمو','نابولي','باريس سان جيرمان','مانشستر يونايتد','فالنسيا']},
+   {n:'أشرف حكيمي',c:['ريال مدريد','بوروسيا دورتموند (إعارة)','ريال مدريد','إنتر','باريس سان جيرمان']},
+   {n:'سيرجيو راموس',c:['إشبيلية','ريال مدريد','باريس سان جيرمان','إشبيلية']},
+   {n:'رحيم ستيرلينج',c:['كوينز بارك رينجرز','ليفربول','مانشستر سيتي','تشيلسي','أرسنال (إعارة)']},
+   {n:'إيفان راكيتيتش',c:['بازل','شالكه 04','إشبيلية','برشلونة','إشبيلية']},
+   {n:'أليكسيس سانشيز',c:['كولو كولو','ريفر بليت (إعارة)','أودينيزي','برشلونة','أرسنال','مانشستر يونايتد','إنتر','مارسيليا']},
+  ];
+  quiz(D.concat(LIVE_DATA.trans||[]),x=>'<div class="path">'+x.c.map(t=>'<span class="cl">'+t+'</span>').join('<span class="ar">←</span>')+'</div>','مين اللاعب اللي عدّى بالأندية دي بالترتيب؟','trans');
+}
+
+function auction(){
+  const POS=['حارس','مدافع','وسط','جناح','مهاجم'];
+  const DB={
+    eg:{
+      'حارس':[['محمد الشناوي','مصطفى شوبير'],['عصام الحضري','شريف إكرامي'],['أحمد الشناوي','محمد أبو جبل']],
+      'مدافع':[['أحمد حجازي','رامي ربيعة'],['محمد عبد المنعم','ياسر إبراهيم'],['وائل جمعة','أحمد فتحي']],
+      'وسط':[['محمد النني','عمرو السولية'],['طارق حامد','إمام عاشور'],['حسام غالي','حسام عاشور']],
+      'جناح':[['محمد صلاح','محمود تريزيجيه'],['أحمد زيزو','حسين الشحات'],['رمضان صبحي','محمود كهربا']],
+      'مهاجم':[['عمر مرموش','مصطفى محمد'],['محمد زيدان','عمرو زكي'],['ميدو','حسام حسن']]
+    },
+    wd:{
+      'حارس':[['تيبو كورتوا','أليسون بيكر'],['مانويل نوير','تير شتيجن'],['إيدرسون','دوناروما']],
+      'مدافع':[['فيرجيل فان دايك','روبن دياز'],['أنطونيو روديجر','ويليام ساليبا'],['ماركينيوس','أشرف حكيمي']],
+      'وسط':[['رودري','جود بيلينجهام'],['كيفين دي بروين','مارتن أوديجارد'],['بيدري','فيديريكو فالفيردي']],
+      'جناح':[['فينيسيوس جونيور','رافينيا'],['لامين يامال','بوكايو ساكا'],['فيل فودين','جمال موسيالا']],
+      'مهاجم':[['كيليان مبابي','إيرلينج هالاند'],['هاري كين','روبرت ليفاندوفسكي'],['لاوتارو مارتينيز','فيكتور أوسيمين']]
+    }
+  };
+  (LIVE_DATA.auction||[]).forEach(x=>{if(x.pos&&x.shown&&x.hidden&&DB.eg[x.pos])DB.eg[x.pos].push([x.shown,x.hidden]);if(x.pos&&x.shown&&x.hidden&&DB.wd[x.pos])DB.wd[x.pos].push([x.shown,x.hidden])});
+  const esc=x=>String(x).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  let names=[],mode='eg';
+  function setup(){
+    app.innerHTML='<div class="panel"><div class="ttl" style="margin-bottom:12px">💰 المزايدة — كل لاعب يبدأ بـ '+(localStorage.getItem('eg_balance')||100)+' مليون</div><p class="note">اكتب قيمة المزايدة بنفسك. مفيش أزرار أسعار جاهزة.</p><div class="row" style="margin-top:12px"><input id="nm" placeholder="اسم اللاعب (٢ لـ ٦)" style="background:var(--pfill);color:var(--ptext);border-color:var(--pline)"><button class="btn" id="ad" style="flex:0 0 auto">أضف</button></div><div class="path" id="ch"></div><div class="row"><button class="btn" data-m="eg">🇪🇬 مصري</button><button class="btn" data-m="wd">🌍 عالمي</button></div><button class="btn g" id="st" style="width:100%">ابدأ المزايدة</button></div>';
+    const ch=$('#ch'),dr=()=>{ch.innerHTML=names.map(n=>'<span class="cl">'+esc(n)+'</span>').join('');app.querySelectorAll('[data-m]').forEach(b=>b.classList.toggle('sel',b.dataset.m===mode));$('#st').disabled=names.length<2};
+    const add=()=>{const v=$('#nm').value.trim();if(v&&names.length<6){names.push(v);$('#nm').value='';dr()}};
+    $('#ad').onclick=add;$('#nm').onkeydown=e=>{if(e.key==='Enter')add()};
+    app.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{mode=b.dataset.m;dr()});$('#st').onclick=play;dr();
+  }
+  function play(){
+    const startBalance=Number(localStorage.getItem('eg_balance')||100);const B=names.map(()=>startBalance),T=names.map(()=>[]);const order=sh(POS);let r=0;
+    function rnd(){
+      const pos=order[r],pairs=sh(DB[mode][pos]),pair=pairs[Math.floor(Math.random()*pairs.length)],shown=pair[0],hidden=pair[1];
+      let price=0,lead=-1,sold=false;
+      const pn=document.createElement('div');pn.className='panel';app.innerHTML='';app.appendChild(pn);
+      function draw(){
+        const msg=sold?(lead<0?'محدش اشتراه':'🎉 مبروك يا '+esc(names[lead])+' — اشتريت '+esc(shown)+' بـ '+price+' مليون'):(lead<0?'ابدأ المزايدة واكتب السعر اللي شايفه مناسب':'أعلى مزايدة: '+price+' مليون — '+esc(names[lead]));
+        pn.innerHTML='<div class="qh"><span class="badge">الجولة '+(r+1)+' من 5</span><span class="badge">'+pos+'</span></div><div class="card pcard">'+esc(shown)+'</div><p class="ask">'+msg+'</p>'+(sold&&lead>=0?'<div class="card pcard" style="min-height:150px;font-size:26px">🎁 اللاعب المخفي<br><strong style="font-size:36px">'+esc(hidden)+'</strong><br><small>اتخصم '+price+' مليون من رصيد '+esc(names[lead])+'</small></div>':'')+(sold?'<button class="btn g" id="nx" style="width:100%">'+(r<4?'الجولة اللي بعدها':'شوف الفرق')+'</button>':'<div class="bidBox"><div class="note">اكتب قيمة المزايدة بالمليون</div><div class="row"><input id="bidAmount" type="number" min="1" step="1" placeholder="مثال: 35" inputmode="numeric"><span class="badge">مليون</span></div><div class="row">'+names.map((n,i)=>'<button class="btn" data-b="'+i+'" '+((i===lead||B[i]<=price)?'disabled':'')+'>'+esc(n)+'<br><small>الرصيد: '+B[i]+'م</small></button>').join('')+'</div><p class="note" id="bidMsg"></p><div class="row"><button class="btn g" id="sl" style="width:100%">'+(lead<0?'بدون مزايدة — بيع':'✅ بيع '+esc(shown))+'</button></div></div>');
+        const amount=()=>Number($('#bidAmount')?.value||0);
+        pn.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{const v=amount();const i=+b.dataset.b;const msg=$('#bidMsg');if(!v||v<=price){msg.textContent='⚠️ لازم المزايدة تكون أكبر من السعر الحالي.';return}if(v>B[i]){msg.textContent='⚠️ '+esc(names[i])+' معاه '+B[i]+' مليون بس.';return}lead=i;price=v;draw()});
+        const sl=$('#sl');if(sl)sl.onclick=()=>{if(lead>=0){B[lead]-=price;T[lead].push({shown,hidden,pos,pr:price})}sold=true;draw()};
+        const nx=$('#nx');if(nx)nx.onclick=()=>{r++;r<5?rnd():fin()};
+      }
+      draw();
+    }
+    function fin(){app.innerHTML='<div class="panel"><div class="ttl" style="margin-bottom:12px">🏁 الفرق النهائية</div>'+names.map((n,i)=>'<div class="tm"><b>'+esc(n)+' — فاضل '+B[i]+' مليون</b>'+(T[i].length?T[i].map(x=>'<div class="h">'+x.pos+': '+esc(x.shown)+' → '+esc(x.hidden)+' ('+x.pr+'م)</div>').join(''):'<div class="h">ما اشترّاش حد</div>')+'</div>').join('')+'<button class="btn g" id="ag" style="width:100%">مزايدة جديدة</button></div>';$('#ag').onclick=setup}
+    rnd();
+  }
+  setup();
+}
+
+function topTen(){
+  const T=['أندية مصرية','لاعبين برازيليين','مدربين كبار','ملاعب كورة','منتخبات أفريقية','لاعبين اتلعبوا في ريال مدريد','أندية إنجليزية','حراس مرمى','أندية إيطالية','لاعبين مصريين'];
+  const Lt=['أ','ب','ت','ج','ح','د','ر','س','ش','ع','ف','ك','م','ن','ه'];
+  let deck=[],c=0,left=60;
+  app.innerHTML='<div class="status">سمّي ١٠ في الفئة قبل ما الوقت يخلص</div><div class="big" id="tm">60</div><div class="card" id="cd">جاهز؟</div><div class="big" id="ct">0 / 10</div><div class="row"><button class="btn" id="go">ابدأ</button><button class="btn" id="pl" disabled>+١ إجابة صح</button><button class="btn" id="nx" disabled>فئة تانية</button></div>';
+  const nx=()=>{if(!deck.length)deck=sh(T);c=0;$('#ct').textContent='0 / 10';$('#cd').textContent=deck.pop()+(Math.random()<.4?' — بحرف '+Lt[Math.floor(Math.random()*Lt.length)]:'')};
+  const end=m=>{clearInterval(tm);$('#cd').textContent=m;$('#pl').disabled=$('#nx').disabled=true;$('#go').disabled=false;$('#go').textContent='جولة جديدة'};
+  $('#go').onclick=()=>{left=60;$('#tm').textContent=left;nx();$('#pl').disabled=$('#nx').disabled=false;$('#go').disabled=true;
+    tm=setInterval(()=>{left--;$('#tm').textContent=left;if(left<=0)end('الوقت خلص! عملت '+c+' من 10')},1000)};
+  $('#pl').onclick=()=>{c++;$('#ct').textContent=c+' / 10';if(c>=10)end('🏆 كملت الـ10!')};
+  $('#nx').onclick=nx;
+}
+
+function c4(){
+  const R=6,C=7;let b=Array.from({length:R},()=>Array(C).fill('')),t='r',over=false;const nm={r:'الأحمر',y:'الأصفر'};
+  app.innerHTML='<div class="status" id="st">الدور على الأحمر</div><div class="c4" id="g"></div><div class="row"><button class="btn" id="rs">ماتش جديد</button></div>';
+  const st=$('#st'),g=$('#g');
+  const win=(r,c)=>[[0,1],[1,0],[1,1],[1,-1]].some(([dr,dc])=>{let n=1;for(const s of[1,-1]){let i=r+dr*s,j=c+dc*s;while(b[i]&&b[i][j]===t){n++;i+=dr*s;j+=dc*s}}return n>=4});
+  function draw(){g.innerHTML='';for(let r=0;r<R;r++)for(let c=0;c<C;c++){const x=document.createElement('button');x.className=b[r][c];x.setAttribute('aria-label','عمود '+(c+1));
+    x.onclick=()=>{if(over)return;let i=R-1;while(i>=0&&b[i][c])i--;if(i<0)return;b[i][c]=t;
+      if(win(i,c)){over=true;st.textContent='🏆 فاز '+nm[t]}else if(b[0].every(Boolean)){over=true;st.textContent='تعادل 🤝'}
+      else{t=t==='r'?'y':'r';st.textContent='الدور على '+nm[t]}draw()};g.appendChild(x)}}
+  $('#rs').onclick=c4;draw();
+}
+
+function score(){
+  let P=JSON.parse(localStorage.getItem('eg_scores')||'[]');
+  app.innerHTML='<div class="panel"><div class="ttl">🏆 لوحة نقاط الشلة</div><p class="note">أضف أسماء اللاعبين، وكل فوز زوّد نقطة. البيانات بتفضل محفوظة على الموبايل.</p><div class="row" style="margin-top:0"><input id="nm" placeholder="اسم اللاعب"><button class="btn" id="ad">أضف</button></div><div class="sheet" id="ls"></div><div class="row"><button class="btn" id="z">↺ تصفير النقاط</button><button class="btn" id="clearP">🗑 مسح اللاعبين</button></div></div>';
+  const ls=$('#ls');
+  function save(){localStorage.setItem('eg_scores',JSON.stringify(P))}
+  function draw(){ls.innerHTML='';P.sort((a,b)=>b.s-a.s).forEach((p,i)=>{const d=document.createElement('div');d.className='p';d.innerHTML='<b></b><button aria-label="زود">+</button><span>'+p.s+'</span><button aria-label="نقّص">&minus;</button>';d.firstChild.textContent=(i===0&&p.s>0?'👑 ':'')+p.n;const bs=d.querySelectorAll('button');bs[0].onclick=()=>{p.s++;save();draw()};bs[1].onclick=()=>{p.s=Math.max(0,p.s-1);save();draw()};ls.appendChild(d)})}
+  const add=()=>{const v=$('#nm').value.trim();if(!v||P.some(p=>p.n===v))return;P.push({n:v,s:0});$('#nm').value='';save();draw()};
+  $('#ad').onclick=add;$('#nm').onkeydown=e=>{if(e.key==='Enter')add()};$('#z').onclick=()=>{P.forEach(p=>p.s=0);save();draw()};$('#clearP').onclick=()=>{if(confirm('تمسح كل أسماء اللاعبين؟')){P=[];save();draw()}};draw();
+}
+home();
+</script>
+<div style="text-align:center;color:#777;font-size:11px;padding:20px">Eslam Games • Football Party Edition • Live player data</div></body>
+</html>
